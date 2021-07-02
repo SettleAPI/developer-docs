@@ -64,99 +64,92 @@
               </div>
             </ul>
           </div>
-          <h3 id="status-codes" v-if="statusCodes">
-            <a href="#status-codes" class="header-anchor">#</a> Status Codes
-          </h3>
-          <ul v-if="statusCodes">
-            <li v-for="(code, index) in statusCodes" :key="index">
-              <strong>{{ code.code }}</strong> -->
-              <!-- <strong>{{ code.title }}</strong>, {{ code.description }} -->
-              <strong>{{ code.title }}</strong>
-              <span v-if="code.description">, {{ code.description }}</span>
-            </li>
-          </ul>
-        </div>
-        <h2 id="schema" v-if="schemas.length">
-          <a href="#schema" class="header-anchor">#</a> Schema
-        </h2>
-        <div class="md-api_reference_FiraCode">
-          <div v-for="(type, entry) in schemas" :key="entry">
-            <h3 :id="type.name">
-              <router-link :to="'#' + type.name" class="header-anchor"
-                >#</router-link
-              >
-              {{ type.name }}
+          <div v-if="statusCodes.length">
+            <h3 id="status-codes">
+              <a href="#status-codes" class="header-anchor">#</a> Status Codes
             </h3>
             <ul>
-              <li>
-                Type:
-                <!-- <code v-if="type.url && type.type">
-                <router-link :to="type.url">{{ type.type }}</router-link>
-              </code> -->
-                <code v-if="type.$ref">
-                  <router-link
-                    :to="'/api/reference/rest/v1/models/#' + type.$ref"
-                    >{{ type.$ref }}</router-link
-                  >
-                </code>
-                <code v-else>{{ type.type }}</code>
-              </li>
-
-              <li v-if="type.required">
-                Required:
-                <code class="required">{{ type.required }}</code>
-              </li>
-              <li v-if="type.enum">
-                Enum: <code>{{ type.enum }}</code>
-              </li>
-              <li v-if="type.default">
-                Default: <code>{{ type.default }}</code>
-              </li>
-              <li
-                v-if="
-                  type.minLength &&
-                  type.maxLength &&
-                  type.minLength === type.maxLength
-                "
-              >
-                Length: <code>{{ type.minLength }}</code>
-              </li>
-              <li v-else-if="type.minLength">
-                Length: <code>&#8805; {{ type.minLength }}</code>
-              </li>
-              <li v-else-if="type.maxLength">
-                Length: <code>&#8804; {{ type.maxLength }}</code>
-              </li>
-              <li v-if="type.minimum && type.type === 'integer'">
-                Value: <code>&#8805; {{ type.minimum }}</code>
-              </li>
-              <li v-if="type.maximum && type.type === 'integer'">
-                Value: <code>&#8804; {{ type.maximum }}</code>
-              </li>
-              <li v-if="type.pattern">
-                RegExp: <code>{{ type.pattern }}</code>
+              <li v-for="(code, index) in statusCodes" :key="index">
+                <strong>{{ code.code }}</strong> -->
+                <strong>{{ code.title }}</strong
+                ><span v-if="code.description">, {{ code.description }}</span>
               </li>
             </ul>
-            <p v-if="type.description">{{ type.description }}</p>
           </div>
         </div>
+        <section v-if="schemas.length">
+          <h2 id="schema">
+            <a href="#schema" class="header-anchor">#</a> Schema
+          </h2>
+          <div class="md-api_reference_FiraCode">
+            <div v-for="(type, entry) in schemas" :key="entry">
+              <h3 :id="type.name">
+                <router-link :to="'#' + type.name" class="header-anchor"
+                  >#</router-link
+                >
+                {{ type.name }}
+              </h3>
+              <ul>
+                <li>
+                  Type:
+                  <!-- <code v-if="type.url && type.type">
+                <router-link :to="type.url">{{ type.type }}</router-link>
+              </code> -->
+                  <code v-if="type.$ref">
+                    <router-link
+                      :to="'/api/reference/rest/v1/models/#' + type.$ref"
+                      >{{ type.$ref }}</router-link
+                    >
+                  </code>
+                  <code v-else>{{ type.type }}</code>
+                </li>
+
+                <li v-if="type.required">
+                  Required:
+                  <code class="required">{{ type.required }}</code>
+                </li>
+                <li v-if="type.enum">
+                  Enum: <code>{{ type.enum }}</code>
+                </li>
+                <li v-if="type.default">
+                  Default: <code>{{ type.default }}</code>
+                </li>
+                <li
+                  v-if="
+                    type.minLength &&
+                    type.maxLength &&
+                    type.minLength === type.maxLength
+                  "
+                >
+                  Length: <code>{{ type.minLength }}</code>
+                </li>
+                <li v-else-if="type.minLength">
+                  Length: <code>&#8805; {{ type.minLength }}</code>
+                </li>
+                <li v-else-if="type.maxLength">
+                  Length: <code>&#8804; {{ type.maxLength }}</code>
+                </li>
+                <li v-if="type.minimum && type.type === 'integer'">
+                  Value: <code>&#8805; {{ type.minimum }}</code>
+                </li>
+                <li v-if="type.maximum && type.type === 'integer'">
+                  Value: <code>&#8804; {{ type.maximum }}</code>
+                </li>
+                <li v-if="type.pattern">
+                  RegExp: <code>{{ type.pattern }}</code>
+                </li>
+              </ul>
+              <p v-if="type.description">{{ type.description }}</p>
+            </div>
+          </div>
+        </section>
+
         <br />
         <!-- <h2 id="code-snippets">
           <a href="#code-snippets" class="header-anchor">#</a> Code Snippets
-        </h2>
-        <div class="language-http extra-class">
-          <pre class="language-http code-copy-added">
-            <code>
-              <span class="token request-line"><span class="token property">POST</span> /some/resource/ HTTP/1.1</span>
-              <span class="token header-name keyword">HOST:</span> server.test
-              <span class="token header-name keyword">Accept:</span> application/vnd.mcash.api.merchant.v1+json
-              <span class="token header-name keyword">Content-Type:</span> application/json
-              <span class="token header-name keyword">X-Auka-Merchant:</span> T9oWAQ3FSl6oeITuR2ZGWA
-              <span class="token header-name keyword">X-Auka-User:</span> POS1
-              <span class="token header-name keyword">Authorization:</span> SECRET MySecretPassword
-            </code>
-          </pre>
-        </div> -->
+        </h2> -->
+        <Content slot-key="example" />
+
         <!-- <h2 id="request-body">
         <a href="#request-body" class="header-anchor">#</a> Request Body
       </h2>
@@ -342,7 +335,7 @@ export default {
 
         if (unsortedShit.length > 0) {
           uniqSchemas = _.uniq(unsortedShit);
-          // console.log(uniqSchemas);
+          // console.log("uniqSchemas", uniqSchemas);
         }
 
         if (uniqSchemas !== undefined) {
@@ -351,18 +344,48 @@ export default {
             if (mon.operationId === frontmatter.operationId) {
               // console.log(mon);
               _.filter(mon.responses, function (apu, smithers) {
-                // console.log(smithers, apu);
-                let title = apu.description.split(",")[0];
-                let description = apu.description.split(",")[1];
-                console.log("code", title + ":" + description);
+                let title;
+                let description;
 
-                // let title = apu.description.split(",")[0];
-                // let description = apu.description.split(",")[1];
+                // console.log("apu", apu.$ref);
+                if (apu.$ref) {
+                  console.log("$ref", apu.$ref);
+                  let currentResponseRef = apu.$ref.split(
+                    "#/components/responses/"
+                  )[1];
+                  console.log("currentResponseRef: ", currentResponseRef);
+                  // _.filter(reference, function (bart, lisa){})
+                  let response =
+                    reference[page.frontmatter.api].components.responses[
+                      currentResponseRef
+                    ];
+                  console.log("response: ", response);
+                  title = response.description;
+                  if (title.includes(",")) {
+                    title = title.split(",")[0];
+                    description = title.split(",")[1];
+                    // console.log("code", title + ":" + description);
+                  } else {
+                    title = title;
+                  }
+                } else {
+                  console.log("apu", apu);
+                  title = apu.description;
+                  if (title.includes(",")) {
+                    title = apu.description.split(",")[0];
+                    description = apu.description.split(",")[1];
+                    // console.log("code", title + ":" + description);
+                  } else {
+                    title = title;
+                  }
+                }
+
                 let code = {
                   code: smithers,
                   title: title,
                   description: description,
                 };
+
                 data.statusCodes.push(code);
               });
               //

@@ -202,6 +202,7 @@ module.exports = (ctx) => ({
     '.vuepress/nav/top/mainNav.js',
     // Sidebars
     '.vuepress/nav/sidebars.js',
+    '.vuepress/nav/left/guides.js',
     '.vuepress/nav/left/rest/rest.js',
     '.vuepress/nav/left/rest/v1/summary.js',
     '.vuepress/nav/left/rest/v1/resources.js',

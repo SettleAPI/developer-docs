@@ -1,6 +1,6 @@
 {
   "name": "settle-developer-docs-with-netlify-cms",
-  "version": "1.0.1",
+  "version": "1.0.358",
   "description": "Documentation for the Settle APIs",
   "authors": {
     "name": "Christian Wick",
@@ -39,6 +39,7 @@
     "vuepress-plugin-img-lazy": "^1.0.4",
     "vuepress-plugin-redirect-frontmatter": "^1.0.0",
     "vuepress-plugin-right-anchor": "^0.4.8",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "vue-code-highlight": "^0.7.8"
   }
 }

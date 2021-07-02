@@ -68,14 +68,10 @@
         The above services has the following endpoints (resources), and all
         methods below are relative to its parent method (service endpoint).
       </p>
-      <div class="md-api_reference_FiraCode">
+      <div class="md-api_reference_FiraCode" v-if="!resource.internal">
         <!-- REST REsources -->
 
-        <section
-          v-if="!resource.internal"
-          v-for="(resource, index) in $data.resource"
-          :key="index"
-        >
+        <section v-for="(resource, index) in $data.resource" :key="index">
           <h3 :id="'v' + resource.version + '-' + resource.headerAnchor">
             <router-link
               :to="'#v' + resource.version + '-' + resource.headerAnchor"
