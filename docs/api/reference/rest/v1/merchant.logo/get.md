@@ -7,6 +7,6 @@ schema: merchant.logo
 operationId: merchant.logo.get
 operation: get
 method: get
-authLevel: SECRET
-authRoles: Any
+authLevel: JWT
+authRoles: USER, SUPERUSER, INTEGRATOR
 ---

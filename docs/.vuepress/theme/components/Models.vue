@@ -19,7 +19,7 @@
             <!-- <a :href="'#' + type.title" class="header-anchor">#</a>  -->
             {{ type.title }}
           </h2>
-          <p v-if="type.properties && type.description">
+          <p v-if="type.properties || type.description">
             {{ type.description }}
           </p>
           <div v-if="type.properties" class="modelEntry">
@@ -112,7 +112,7 @@
               <p v-if="property.description">{{ property.description }}</p>
             </div>
           </div>
-          <div v-else>
+          <div v-if="!type.description && !type.properties">
             <p>
               No info available for <strong>{{ type.title }}</strong> at of this
               moment. Please
@@ -187,7 +187,7 @@ export default {
     } else if (site.pages[0].models) {
       data.types = site.pages[0].models;
     } else {
-      console.warn('Neither page.models or site.pages[0].models found...');
+      console.warn("Neither page.models or site.pages[0].models found...");
     }
 
     // console.log(data.types);

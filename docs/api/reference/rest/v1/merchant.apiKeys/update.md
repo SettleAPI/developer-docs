@@ -7,6 +7,6 @@ schema: merchant.apiKeys
 operationId: merchant.apiKeys.update
 operation: put
 method: update
-authLevel: KEY
-authRoles: All
+authLevel: RSA
+authRoles: SUPERUSER, INTEGRATOR
 ---

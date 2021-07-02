@@ -7,6 +7,6 @@ schema: merchant.apiKeys
 operationId: merchant.apiKeys.create
 operation: post
 method: create
-authLevel: KEY
-authRoles: All
+authLevel: RSA
+authRoles: SUPERUSER, INTEGRATOR
 ---

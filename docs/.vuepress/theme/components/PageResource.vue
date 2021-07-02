@@ -48,6 +48,16 @@
                 :to="'/api/guides/introduction/authentication/#authentication-using-key'"
                 >{{ $frontmatter.authLevel }}
               </router-link>
+              <router-link
+                v-if="$frontmatter.authLevel === 'JWT'"
+                :to="'/api/guides/introduction/authentication/#authentication-using-secret'"
+                >{{ $frontmatter.authLevel }}
+              </router-link>
+              <router-link
+                v-if="$frontmatter.authLevel === 'RSA'"
+                :to="'/api/guides/introduction/authentication/#authentication-using-key'"
+                >{{ $frontmatter.authLevel }}
+              </router-link>
             </li>
             <li>Authorized Roles: {{ $frontmatter.authRoles }}</li>
           </ul>
@@ -122,6 +132,13 @@
                   "
                 >
                   Length: <code>{{ type.minLength }}</code>
+                </li>
+                <li v-else-if="type.minLength && type.maxLength">
+                  Length:
+                  <code
+                    >&#8804; {{ type.minLength }} && &#8805;
+                    {{ type.maxLength }}</code
+                  >
                 </li>
                 <li v-else-if="type.minLength">
                   Length: <code>&#8805; {{ type.minLength }}</code>

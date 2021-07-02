@@ -7,6 +7,6 @@ schema: merchant.apiKeys
 operationId: merchant.apiKeys.list
 operation: get
 method: list
-authLevel: KEY
-authRoles: SUPERUSER, INTEGRATOR
+authLevel: RSA
+authRoles: USER, SUPERUSER, INTEGRATOR
 ---

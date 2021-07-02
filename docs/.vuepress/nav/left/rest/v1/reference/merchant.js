@@ -6,6 +6,7 @@ function merchant_apiKeys() {
     children: [
       ['/api/reference/rest/v1/merchant.apiKeys/', 'Overview'],
       ['/api/reference/rest/v1/merchant.apiKeys/create', 'create'],
+      ['/api/reference/rest/v1/merchant.apiKeys/list', 'list'],
       ['/api/reference/rest/v1/merchant.apiKeys/get', 'get'],
       ['/api/reference/rest/v1/merchant.apiKeys/update', 'update'],
       ['/api/reference/rest/v1/merchant.apiKeys/delete', 'delete'],

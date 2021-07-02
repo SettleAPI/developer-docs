@@ -7,6 +7,6 @@ schema: merchant.apiKeys
 operationId: merchant.apiKeys.get
 operation: get
 method: get
-authLevel: SECRET
-authRoles: All
+authLevel: JWT
+authRoles: USER, SUPERUSER, INTEGRATOR
 ---

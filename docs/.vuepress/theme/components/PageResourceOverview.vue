@@ -17,9 +17,14 @@
         <router-link :to="'#resource'" class="header-anchor">#</router-link>
         Resource
       </h3>
-      <p>There is no persistent data associated with this resource.</p>
-      &nbsp; &nbsp; &nbsp;
-      <Content />
+      <div v-if="$frontmatter.resourceDesc === true">
+        <Content slot-key="resource" :hasDescription="true" />
+      </div>
+      <div v-else>
+        <p>There is no persistent data associated with this resource.</p>
+      </div>
+
+      <!-- <Content /> -->
       <h2 id="http-request">
         <router-link :to="'#http-request'" class="header-anchor">#</router-link>
         HTTP Requests
@@ -52,7 +57,10 @@
       </table>
       <div v-else class="warning custom-block">
         <p class="custom-block-title">WARNING</p>
-        <p>No Methods found for <strong>{{ $frontmatter.schema }}</strong>.</p>
+        <p>
+          No Methods found for <strong>{{ $frontmatter.schema }}</strong
+          >.
+        </p>
       </div>
     </div>
     <PageEdit />
@@ -72,7 +80,7 @@ const _ = require("lodash");
 
 const yaml = require("js-yaml");
 
-console.clear();
+// console.clear();
 
 let getMethods;
 
@@ -97,6 +105,9 @@ export default {
     return {
       methods: [],
     };
+  },
+  async extendPageData($page) {
+    $page.size = await getAsyncData();
   },
   async beforeMount() {
     site = this.$site;

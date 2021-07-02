@@ -7,6 +7,6 @@ schema: merchant.apiKeys
 operationId: merchant.apiKeys.delete
 operation: delete
 method: delete
-authLevel: KEY
-authRoles: All
+authLevel: RSA
+authRoles: SUPERUSER, INTEGRATOR
 ---
