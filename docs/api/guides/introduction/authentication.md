@@ -8,7 +8,7 @@ In the Settle API different authentication levels ***(Auth Levels)*** can be ach
 
 1. OPEN *(no authentication required)*
 2. [**JWT** *(Shared Secret)*](#authentication-using-secret)
-3. [**RSA** *(Private/Public Keypair)*](#authentication-using-rsa-signature)
+3. [**RSA** *(Private/Public Key Pair)*](#authentication-using-rsa-signature)
 
 When authenticated with a particular **Auth Level**, the client is also authorized for endpoints requiring a lower authentication level. E.g. if authenticated with **Auth Level** [](/guides/authentication/#authentication-using-rsa-signature)RSA, endpoints requiring [JWT](/guides/authentication/#authentication-using-secret) or OPEN are also accessible.
 
@@ -43,7 +43,7 @@ When using the Settle testbed environment, an **X-Testbed-Token** header is also
 :::
 
 ::: tip NOTE
-The **X-Auka-Integrator** header MUST NOT be used unless the merchant clients are communicating *through* a server, controlled by the integrator, acting as a proxy. If a client is using a direct connection to Settle, even though the integrator owns the client and may control it through some other channel, it MUST use merchant user credentials and the **X-Auka-User** header.
+The **X-Settle-Integrator** header MUST NOT be used unless the merchant clients are communicating *through* a server, controlled by the integrator, acting as a proxy. If a client is using a direct connection to Settle, even though the integrator owns the client and may control it through some other channel, it MUST use merchant user credentials and the **X-Settle-User** header.
 :::
 
 ## Authentication using JWT
@@ -61,8 +61,8 @@ POST /some/resource/ HTTP/1.1
 HOST: server.test
 Accept: application/vnd.mcash.api.merchant.v1+json
 Content-Type: application/json
-X-Auka-Merchant: T9oWAQ3FSl6oeITuR2ZGWA
-X-Auka-User: POS1
+X-Settle-Merchant: T9oWAQ3FSl6oeITuR2ZGWA
+X-Settle-User: POS1
 Authorization: SECRET MySecretPassword
 
 {"text": "Hello world"}
@@ -72,7 +72,7 @@ Authorization: SECRET MySecretPassword
 
 * **Auth Level:** RSA
 
-Settle generates and validates according to the *PKCS#1 v1.5* (RSASSA-PKCS1-v1_5) standard described in **[RFC 3447](http://tools.ietf.org/html/rfc3447.html)**. The hash function used in the signing procedure is [SHA256](https://en.wikipedia.org/wiki/SHA-2).
+Settle generates and validates according to the PKCS#1 v1.5 *(RSASSA-PKCS1-v1_5)* standard described in **[RFC 3447](http://tools.ietf.org/html/rfc3447.html)**. The hash function used in the signing procedure is [SHA256](https://en.wikipedia.org/wiki/SHA-2).
 
 ### Headers
 
@@ -108,7 +108,7 @@ name1=value1&name2=value2...
 
 1. Headers are sorted alphabetically.
 2. All header names must be made uppercase before constructing the string.
-3. Headers whose names don't start with **X-Auka-** are excluded.
+3. Headers whose names don't start with **X-Settle-** are excluded.
    :::
 
 Reusing the example in the previous section, a typical HTTP request will look like this:
@@ -118,10 +118,10 @@ POST /some/resource/ HTTP/1.1
 HOST: server.test
 Accept: application/vnd.mcash.api.merchant.v1+json
 Content-Type: application/json
-X-Auka-Merchant: T9oWAQ3FSl6oeITuR2ZGWA
-X-Auka-User: POS1
-X-Auka-Timestamp: 2013-10-05 21:33:46
-X-Auka-Content-Digest: SHA256=oWVxV3hhr8+LfVEYkv57XxW2R1wdhLsrfu3REAzmS7k=
+X-Settle-Merchant: T9oWAQ3FSl6oeITuR2ZGWA
+X-Settle-User: POS1
+X-Settle-Timestamp: 2013-10-05 21:33:46
+X-Settle-Content-Digest: SHA256=oWVxV3hhr8+LfVEYkv57XxW2R1wdhLsrfu3REAzmS7k=
 Authorization: RSA-SHA256 p8+PdS5dDa6Ig46jNQhE8qQR+J8rRgX77cyXN3EIvUqpQ2lB8Cz1bcUF6lwvdVbz4NSUIQD/OCT8X2WtqRNbPW+5DDzGC1TytiV6p0EXiMOAl7s6kioHnVGaiCSHyfO6ZYB7ubtcMtUE0+7OEUcPeaqSHeL4wwUkO8W0+euwGsfwl9gOoQHBFIOh0bh8z3JNGhUeIZM8fvrk+8kj/s2A70IBvUOLwcFeP8uf6gTi1fz7BtgJ5rHmfvn9HvrsyO53/nx2mXZdAap4MfOZa6dp0ievZ5kU1vEfB2R6f4uPHzKLnaePlDOQMTk+uHlxU0ChkSqenbgJvpGuaOGiQekwsA==
 
 {"text": "Hello world"}
@@ -130,18 +130,90 @@ Authorization: RSA-SHA256 p8+PdS5dDa6Ig46jNQhE8qQR+J8rRgX77cyXN3EIvUqpQ2lB8Cz1bc
 In this case the header part of the signature message is:
 
 ```http
-X-AUKA-CONTENT-DIGEST=SHA256=oWVxV3hhr8+LfVEYkv57XxW2R1wdhLsrfu3REAzmS7k=&X-AUKA-MERCHANT=T9oWAQ3FSl6oeITuR2ZGWA&X-AUKA-TIMESTAMP=2013-10-05 21:33:46&X-AUKA-USER=POS1
+X-SETTLE-CONTENT-DIGEST=SHA256=oWVxV3hhr8+LfVEYkv57XxW2R1wdhLsrfu3REAzmS7k=&X-SETTLE-MERCHANT=T9oWAQ3FSl6oeITuR2ZGWA&X-SETTLE-TIMESTAMP=2013-10-05 21:33:46&X-SETTLE-USER=POS1
 ```
 
 and complete signature message is:
 
 ```http
-POST|http://server.test/some/resource/|X-AUKA-CONTENT-DIGEST=SHA256=oWVxV3hhr8+LfVEYkv57XxW2R1wdhLsrfu3REAzmS7k=&X-AUKA-MERCHANT=T9oWAQ3FSl6oeITuR2ZGWA&X-AUKA-TIMESTAMP=2013-10-05 21:33:46&X-AUKA-USER=POS1
+POST|http://server.test/some/resource/|X-SETTLE-CONTENT-DIGEST=SHA256=oWVxV3hhr8+LfVEYkv57XxW2R1wdhLsrfu3REAzmS7k=&X-SETTLE-MERCHANT=T9oWAQ3FSl6oeITuR2ZGWA&X-SETTLE-TIMESTAMP=2013-10-05 21:33:46&X-SETTLE-USER=POS1
 ```
 
-The key-pair that was used for generating the signature in this example can be downloaded here: [`public`](https://developer.settle.eu/_downloads/sample-pubkey.pem), [`private`](https://developer.settle.eu/_downloads/sample-privkey.pem)
+The key-pair that was used for generating the signature in this example can be downloaded here: [`public`](https://developer.settle.eu/_downloads/sample-pubkey.pem), [`private`](https://developer.settle.eu/_downloads/sample-privkey.pem).
 
-The Python script that was used for generating the signature and `X-Auka-Content-Digest` header can be downloaded [`here`](https://developer.settle.eu/_downloads/rsa_example.py)
+Here you can see the Python script that was used for generating the signature and `X-Settle-Content-Digest` header.
+
+```python
+# Changing working directory to the directory of this file
+import os
+os.chdir(os.path.dirname(__file__))
+
+import base64
+import json
+from Crypto.Hash import SHA256
+from Crypto.PublicKey import RSA
+from Crypto.Signature import PKCS1_v1_5
+
+
+with open('sample-privkey.pem', 'r') as fd:
+    signer = PKCS1_v1_5.new(RSA.importKey(fd.read()))
+with open('sample-pubkey.pem', 'r') as fd:
+    verifier = PKCS1_v1_5.new(RSA.importKey(fd.read()))
+
+
+method = 'POST'
+url = 'http://server.test/some/resource/'
+data = json.dumps({'text': 'Hello world'})
+content_sha256 = base64.b64encode(SHA256.new(data).digest())
+
+headers = {
+    'Accept': 'application/vnd.mcash.api.merchant.v1+json',
+    'Content-Type': 'application/json',
+    'X-Settle-Merchant': 'T9oWAQ3FSl6oeITuR2ZGWA',
+    'X-Settle-User': 'POS1',
+    'X-Settle-Timestamp': '2013-10-05 21:33:46',
+    'X-Settle-Content-Digest': 'SHA256=' + content_sha256,
+}
+
+#Make all header names uppercase
+headers = {k.upper(): v for k, v in headers.items()}
+# Constructing headers string for signature
+# Equivalent one-liner:
+sign_headers = ''
+d = ''
+for key, value in sorted(headers.items()):
+    if not key.startswith('X-Settle-'):
+        continue
+    sign_headers += d + key + '=' + value
+    d = '&'
+
+sign_msg = '|'.join([method.upper(), url.lower(), sign_headers])
+
+rsa_signature = base64.b64encode(signer.sign(SHA256.new(sign_msg)))
+rsa_auth_header = 'RSA-SHA256 ' + rsa_signature
+
+# Verification of the signature can be done like this
+assert verifier.verify(SHA256.new(sign_msg), base64.b64decode(rsa_signature)), 'Invalid signature'
+
+print """X-Settle-Content-Digest value is:
+{content_sha256}
+
+Headers part of signature message is
+{sign_headers}
+
+Signature message is
+{sign_msg}
+
+Authorization header for RSA-SHA256 is
+{rsa_auth_header}""".format(
+    content_sha256=headers['X-Settle-CONTENT-DIGEST'],
+    sign_headers=sign_headers,
+    sign_msg=sign_msg,
+    rsa_auth_header=rsa_auth_header
+)
+```
+
+
 
 ## Verifying signatures from Settle
 
